@@ -176,7 +176,8 @@ where
     ) -> Result<IsNull, Box<dyn Error + Sync + Send>> {
         let fmt = match *ty {
             Type::TIMESTAMP | Type::TIMESTAMP_ARRAY => "%Y-%m-%d %H:%M:%S%.6f",
-            Type::TIMESTAMPTZ | Type::TIMESTAMPTZ_ARRAY => "%Y-%m-%d %H:%M:%S%.6f%:::z",
+            // HACK(fangxu.hu): Clickhouse supports nanoseconds.
+            Type::TIMESTAMPTZ | Type::TIMESTAMPTZ_ARRAY => "%Y-%m-%d %H:%M:%S%.9f%:::z",
             Type::DATE | Type::DATE_ARRAY => "%Y-%m-%d",
             Type::TIME | Type::TIME_ARRAY => "%H:%M:%S%.6f",
             Type::TIMETZ | Type::TIMETZ_ARRAY => "%H:%M:%S%.6f%:::z",
